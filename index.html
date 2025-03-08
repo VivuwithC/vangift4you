@@ -12,18 +12,13 @@
     <div id="balloon-container"></div>
 
     <!-- Hộp quà -->
-    <div id="gift-box" class="hidden">
-        <img id="gift" src="gift.png" alt="Hộp quà">
+    <div id="gift-box" onclick="openGift()">
+        <div id="lid"></div>
+        <div id="box"></div>
     </div>
 
-    <!-- Con mèo + Lời chúc -->
-    <div id="cat-box" class="hidden">
-        <img id="cat" src="cat.png" alt="Con mèo">
-        <p id="message">"Cho bạn một món quà!"</p>
-    </div>
-
-    <!-- Chữ Chúc Mừng -->
-    <h1 id="greeting" class="hidden">Chúc Mừng 8/3 🎉</h1>
+    <!-- Lời chúc -->
+    <h1 id="greeting">Chúc Mừng 8/3 🎉</h1>
 
     <!-- Pháo hoa -->
     <canvas id="fireworks"></canvas>
