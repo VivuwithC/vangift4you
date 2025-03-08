@@ -1,47 +1,61 @@
-import { AdditiveBlending, BufferAttribute, BufferGeometry, CanvasTexture, Color, PerspectiveCamera, Points, RawShaderMaterial, Scene, WebGLRenderer } from "https://cdn.skypack.dev/three@0.136.0"
-import { OrbitControls } from "https://cdn.skypack.dev/three@0.136.0/examples/jsm/controls/OrbitControls"
-import GUI from "https://cdn.skypack.dev/three@0.136.0/examples/jsm/libs/lil-gui.module.min.js"
-import { TWEEN } from "https://cdn.skypack.dev/three@0.136.0/examples/jsm/libs/tween.module.min.js"
+const canvas = document.getElementById("galaxyCanvas");
+const ctx = canvas.getContext("2d");
 
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
 
+const stars = [];
+const numStars = 300;
 
-console.clear()
-// ------------------------ //
-// SETUP
+// Hàm tạo ngôi sao ngẫu nhiên
+function createStar() {
+    return {
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        radius: Math.random() * 2,
+        opacity: Math.random(),
+        speed: Math.random() * 0.5
+    };
+}
 
-const count = 128 ** 2
+// Tạo danh sách sao
+for (let i = 0; i < numStars; i++) {
+    stars.push(createStar());
+}
 
-const scene = new Scene()
+// Vẽ sao lên canvas
+function drawStars() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    
+    stars.forEach(star => {
+        ctx.beginPath();
+        ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(255, 255, 255, ${star.opacity})`;
+        ctx.fill();
+    });
+}
 
-const camera = new PerspectiveCamera(
-  60, innerWidth / innerHeight, 0.1, 100
-)
-camera.position.set(0, 2, 3)
+// Cập nhật vị trí và độ sáng sao
+function updateStars() {
+    stars.forEach(star => {
+        star.opacity += (Math.random() - 0.5) * 0.05;
+        if (star.opacity > 1) star.opacity = 1;
+        if (star.opacity < 0.1) star.opacity = 0.1;
+    });
+}
 
-const renderer = new WebGLRenderer({ canvas })
-renderer.setSize(innerWidth, innerHeight)
-renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
+// Animation loop
+function animate() {
+    drawStars();
+    updateStars();
+    requestAnimationFrame(animate);
+}
 
-const orbit = new OrbitControls(camera, canvas)
+// Đổi kích thước canvas khi resize
+window.addEventListener("resize", () => {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+});
 
-
-
-// ------------------------ //
-// STAR ALPHA TEXTURE
-
-const ctx = document.createElement("canvas").getContext("2d")
-ctx.canvas.width = ctx.canvas.height = 32
-
-ctx.fillStyle = "#000"
-ctx.fillRect(0, 0, 32, 32)
-
-let grd = ctx.createRadialGradient(16, 16, 0, 16, 16, 16)
-grd.addColorStop(0.0, "#fff")
-grd.addColorStop(1.0, "#000")
-ctx.fillStyle = grd
-ctx.beginPath()
-ctx.rect(15, 0, 2, 32)
-ctx.fill()
-ctx.beginPath()
-ctx.rect(0, 15, 32, 2)
-ctx.fill()
+// Chạy hiệu ứng
+animate();
