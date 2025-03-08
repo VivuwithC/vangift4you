@@ -1,5 +1,3 @@
-Dưới 
-
 // Tạo bong bóng bay
 function createBalloon() {
     const balloon = document.createElement("div");
@@ -15,24 +13,12 @@ function createBalloon() {
 
 setInterval(createBalloon, 300);
 
-// Hiệu ứng hộp quà xuất hiện
-setTimeout(() => {
-    document.getElementById("gift-box").classList.remove("hidden");
-}, 5000);
-
 // Khi bấm vào hộp quà
-document.getElementById("gift-box").addEventListener("click", function () {
-    document.getElementById("gift-box").classList.add("hidden");
-    document.getElementById("cat-box").classList.remove("hidden");
-
-    setTimeout(() => {
-        document.getElementById("cat-box").classList.add("hidden");
-        document.getElementById("greeting").classList.remove("hidden");
-
-        // Hiển thị pháo hoa
-        startFireworks();
-    }, 3000);
-});
+function openGift() {
+    document.getElementById("gift-box").style.display = "none";
+    document.getElementById("greeting").style.display = "block";
+    startFireworks();
+}
 
 // Pháo hoa
 const canvas = document.getElementById("fireworks");
@@ -91,6 +77,7 @@ function animateFireworks() {
         f.update();
         f.draw();
     });
-    requestAnimationFrame(animateFire
+    requestAnimationFrame(animateFireworks);
+}
 
-    
+animateFireworks();
