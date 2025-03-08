@@ -1,83 +1,47 @@
-// Tạo bong bóng bay
-function createBalloon() {
-    const balloon = document.createElement("div");
-    balloon.classList.add("balloon");
-    balloon.style.left = Math.random() * 100 + "vw";
-    balloon.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 70%)`;
-    document.getElementById("balloon-container").appendChild(balloon);
+import { AdditiveBlending, BufferAttribute, BufferGeometry, CanvasTexture, Color, PerspectiveCamera, Points, RawShaderMaterial, Scene, WebGLRenderer } from "https://cdn.skypack.dev/three@0.136.0"
+import { OrbitControls } from "https://cdn.skypack.dev/three@0.136.0/examples/jsm/controls/OrbitControls"
+import GUI from "https://cdn.skypack.dev/three@0.136.0/examples/jsm/libs/lil-gui.module.min.js"
+import { TWEEN } from "https://cdn.skypack.dev/three@0.136.0/examples/jsm/libs/tween.module.min.js"
 
-    setTimeout(() => {
-        balloon.remove();
-    }, 5000);
-}
 
-setInterval(createBalloon, 300);
 
-// Khi bấm vào hộp quà
-function openGift() {
-    document.getElementById("gift-box").style.display = "none";
-    document.getElementById("greeting").style.display = "block";
-    startFireworks();
-}
+console.clear()
+// ------------------------ //
+// SETUP
 
-// Pháo hoa
-const canvas = document.getElementById("fireworks");
-const ctx = canvas.getContext("2d");
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
+const count = 128 ** 2
 
-class Firework {
-    constructor(x, y, color) {
-        this.x = x;
-        this.y = y;
-        this.color = color;
-        this.particles = [];
+const scene = new Scene()
 
-        for (let i = 0; i < 50; i++) {
-            this.particles.push({
-                x: x,
-                y: y,
-                speed: Math.random() * 5 + 2,
-                angle: Math.random() * 2 * Math.PI,
-                alpha: 1
-            });
-        }
-    }
+const camera = new PerspectiveCamera(
+  60, innerWidth / innerHeight, 0.1, 100
+)
+camera.position.set(0, 2, 3)
 
-    update() {
-        this.particles.forEach(p => {
-            p.x += Math.cos(p.angle) * p.speed;
-            p.y += Math.sin(p.angle) * p.speed;
-            p.alpha -= 0.02;
-        });
-    }
+const renderer = new WebGLRenderer({ canvas })
+renderer.setSize(innerWidth, innerHeight)
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
 
-    draw() {
-        this.particles.forEach(p => {
-            ctx.fillStyle = this.color;
-            ctx.globalAlpha = p.alpha;
-            ctx.beginPath();
-            ctx.arc(p.x, p.y, 3, 0, Math.PI * 2);
-            ctx.fill();
-        });
-    }
-}
+const orbit = new OrbitControls(camera, canvas)
 
-let fireworks = [];
 
-function startFireworks() {
-    setInterval(() => {
-        fireworks.push(new Firework(Math.random() * canvas.width, Math.random() * canvas.height / 2, `hsl(${Math.random() * 360}, 100%, 60%)`));
-    }, 500);
-}
 
-function animateFireworks() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    fireworks.forEach(f => {
-        f.update();
-        f.draw();
-    });
-    requestAnimationFrame(animateFireworks);
-}
+// ------------------------ //
+// STAR ALPHA TEXTURE
 
-animateFireworks();
+const ctx = document.createElement("canvas").getContext("2d")
+ctx.canvas.width = ctx.canvas.height = 32
+
+ctx.fillStyle = "#000"
+ctx.fillRect(0, 0, 32, 32)
+
+let grd = ctx.createRadialGradient(16, 16, 0, 16, 16, 16)
+grd.addColorStop(0.0, "#fff")
+grd.addColorStop(1.0, "#000")
+ctx.fillStyle = grd
+ctx.beginPath()
+ctx.rect(15, 0, 2, 32)
+ctx.fill()
+ctx.beginPath()
+ctx.rect(0, 15, 32, 2)
+ctx.fill()
