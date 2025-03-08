@@ -8,16 +8,29 @@
 </head>
 <body>
 
-    <audio autoplay loop>
+    <!-- Nhạc nền -->
+    <audio id="bg-music" autoplay loop>
         <source src="music.mp3" type="audio/mpeg">
-        Trình duyệt của bạn không hỗ trợ audio.
+        Trình duyệt của bạn không hỗ trợ phát nhạc.
     </audio>
 
-    <div class="container">
-        <h1>💖 Chúc Mừng Ngày Quốc Tế Phụ Nữ 8/3 💖</h1>
-        <p>Chúc bạn luôn xinh đẹp, hạnh phúc và tràn đầy yêu thương! 💐</p>
+    <!-- Form nhập tên người nhận -->
+    <div id="welcome">
+        <h2>Gửi lời chúc 8/3 đến ai đó 💖</h2>
+        <input type="text" id="name-input" placeholder="Nhập tên người nhận...">
+        <button onclick="showCard()">Gửi lời chúc</button>
+    </div>
+
+    <!-- Thiệp chúc mừng -->
+    <div id="card" class="hidden">
+        <div class="card-content">
+            <h1>💖 Chúc Mừng 8/3 💖</h1>
+            <p id="greeting"></p>
+            <button onclick="reloadPage()">Gửi tiếp</button>
+        </div>
     </div>
 
     <script src="script.js"></script>
+
 </body>
 </html>
