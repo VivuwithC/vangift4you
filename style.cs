@@ -3,6 +3,7 @@ body {
     overflow: hidden;
     background-color: #ffccff;
     text-align: center;
+    font-family: Arial, sans-serif;
 }
 
 /* Bong bóng bay */
@@ -34,34 +35,30 @@ body {
     top: 40%;
     left: 50%;
     transform: translate(-50%, -50%);
-}
-
-#gift {
     width: 100px;
+    height: 100px;
     cursor: pointer;
 }
 
-/* Con mèo và lời chúc */
-#cat-box {
+#lid {
+    width: 100px;
+    height: 20px;
+    background-color: red;
     position: absolute;
-    top: 40%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    text-align: center;
+    top: -20px;
+    left: 0;
 }
 
-#cat {
-    width: 120px;
+#box {
+    width: 100px;
+    height: 100px;
+    background-color: gold;
+    position: absolute;
 }
 
-#message {
-    font-size: 20px;
-    font-weight: bold;
-    color: #ff0080;
-}
-
-/* Chữ Chúc Mừng */
+/* Lời chúc */
 #greeting {
+    display: none;
     position: absolute;
     top: 50%;
     left: 50%;
@@ -69,11 +66,12 @@ body {
     font-size: 40px;
     font-weight: bold;
     color: #ff0080;
+    animation: glow 1s infinite alternate;
 }
 
-/* Ẩn phần tử */
-.hidden {
-    display: none;
+@keyframes glow {
+    from { text-shadow: 0 0 10px pink; }
+    to { text-shadow: 0 0 20px red; }
 }
 
 /* Pháo hoa */
