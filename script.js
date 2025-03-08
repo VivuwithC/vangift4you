@@ -1,3 +1,5 @@
+Dưới 
+
 // Tạo bong bóng bay
 function createBalloon() {
     const balloon = document.createElement("div");
@@ -85,4 +87,10 @@ function startFireworks() {
 
 function animateFireworks() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    fireworks.forEach
+    fireworks.forEach(f => {
+        f.update();
+        f.draw();
+    });
+    requestAnimationFrame(animateFire
+
+    
