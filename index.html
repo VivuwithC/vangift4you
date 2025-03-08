@@ -6,6 +6,27 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dải Ngân Hà</title>
+
+<style>
+    /* Ngôi sao trong chòm sao Bảo Bình */
+    .star {
+        position: absolute;
+        width: 5px;
+        height: 5px;
+        background-color: white;
+        border-radius: 50%;
+        box-shadow: 0 0 8px rgba(255, 255, 255, 0.8);
+    }
+
+    /* Đường nối giữa các ngôi sao */
+    .line {
+        position: absolute;
+        background-color: rgba(255, 255, 255, 0.5);
+        height: 2px;
+        transform-origin: 0 50%;
+    }
+</style>
+    
 </head>
 
 <style>
@@ -230,6 +251,47 @@
         });
 
 </script>
+
+<script>
+    // Danh sách tọa độ ngôi sao trong chòm sao Bảo Bình
+    const stars = [
+        { x: window.innerWidth / 2 - 150, y: window.innerHeight / 2 - 100 }, 
+        { x: window.innerWidth / 2 - 100, y: window.innerHeight / 2 }, 
+        { x: window.innerWidth / 2, y: window.innerHeight / 2 - 50 }, 
+        { x: window.innerWidth / 2 + 100, y: window.innerHeight / 2 + 50 },
+        { x: window.innerWidth / 2 + 150, y: window.innerHeight / 2 - 30 }
+    ];
+
+    // Thêm sao vào trang
+    stars.forEach(pos => {
+        const star = document.createElement("div");
+        star.classList.add("star");
+        star.style.left = `${pos.x}px`;
+        star.style.top = `${pos.y}px`;
+        document.body.appendChild(star);
+    });
+
+    // Thêm đường nối giữa các sao
+    for (let i = 0; i < stars.length - 1; i++) {
+        const x1 = stars[i].x, y1 = stars[i].y;
+        const x2 = stars[i + 1].x, y2 = stars[i + 1].y;
+
+        const dx = x2 - x1;
+        const dy = y2 - y1;
+        const length = Math.sqrt(dx * dx + dy * dy);
+        const angle = Math.atan2(dy, dx) * (180 / Math.PI);
+
+        const line = document.createElement("div");
+        line.classList.add("line");
+        line.style.width = `${length}px`;
+        line.style.left = `${x1}px`;
+        line.style.top = `${y1}px`;
+        line.style.transform = `rotate(${angle}deg)`;
+
+        document.body.appendChild(line);
+    }
+</script>
+    
 </body>
 
 </html>
